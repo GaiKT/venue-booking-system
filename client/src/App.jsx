@@ -4,8 +4,8 @@ import ThisWeekPage from './pages/ThisWeekPage';
 import NextWeekPage from './pages/NextWeekPage'; // Assuming you have this component
 import WholeMonthPage from './pages/WholeMonthPage'; // Assuming you have this component
 import Layout from './layouts/Layout';
-import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BookingProvider } from './context/BookingContext';
 
 function App() {
   const router = createBrowserRouter([
@@ -19,19 +19,22 @@ function App() {
     },
     {
       path: "/bookings/next-week",
-      element: <Layout><NextWeekPage /></Layout>, // Use NextWeekPage component
+      element: <Layout><NextWeekPage /></Layout>, 
     },
     {
       path: "/bookings/whole-month",
-      element: <Layout><WholeMonthPage /></Layout>, // Use WholeMonthPage component
+      element: <Layout><WholeMonthPage /></Layout>,
     }
   ]);
 
-  createRoot(document.getElementById("root")).render(
+    return(
     <div className='h-screen w-screen py-[2%] px-[4%] bg-slate-400'>
-      <RouterProvider router={router} />
+      <BookingProvider>
+        <RouterProvider router={router} />
+      </BookingProvider>
     </div>
-  );
+    )
+  
 }
 
 export default App;

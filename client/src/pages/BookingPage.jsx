@@ -11,9 +11,7 @@ export default function BookingPage() {
             <h1>Rooms</h1>
             {
               rooms.map((room)=>{
-                return  <li>
-                            <Link to={`/bookings/this-week?roomId=${room}`}>{room}</Link>
-                        </li>
+                return  <li><Link to={`/bookings/this-week?roomId=${room}`}>{room}</Link></li>
               })
             }
         </ul>

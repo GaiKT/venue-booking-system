@@ -1,31 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { data } from '../assets/mookup-db.js'
-import { getBookingsForWeek , getWeekNumber } from '../utils/getBookingForWeek'
-import { useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react'
 import { format } from 'date-fns';
+import {setFormatTime} from '../utils/getBookingForWeek'
 
-export default function BookingUpcoming() {
-    const [bookings , setBooking] = useState([])
+export default function BookingUpcoming({bookings , roomId}) {
+    
     const [today , setToday] = useState(new Date())
-
-    //get query params
-    const [searchParams] = useSearchParams();
-    const roomId = searchParams.get('roomId');
-
-    const setFormatTime = (dateTime) => {
-        const date = new Date(dateTime);
-        const hours = date.getHours().toString().padStart(2, '0'); 
-        const minutes = date.getMinutes().toString().padStart(2, '0'); 
-
-        const timeString = `${hours}:${minutes}`; 
-        return timeString
-    }
-
-    useEffect(()=>{
-        const currantWeekNo = getWeekNumber(today)
-        const todayBooking = getBookingsForWeek( roomId , currantWeekNo , data)
-        setBooking( todayBooking.today)
-    },[])
 
   return (
     <>
