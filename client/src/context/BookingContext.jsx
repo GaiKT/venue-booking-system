@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { getBookingsForWeek, getWeekNumber } from '../utils/getBookingForWeek';
+import { getBookingsForWeek} from '../utils/getBookingForWeek';
+import { getWeek } from 'date-fns';
 import { data } from '../assets/mookup-db';
 
 // Create the context
@@ -17,7 +18,7 @@ const BookingProvider = ({ children }) => {
   // Define the getBooking function
   const getBooking = (roomId) => {
     const today = new Date();
-    const thisWeekNo = getWeekNumber(today);
+    const thisWeekNo = getWeek(today);
     const newBooking = getBookingsForWeek(roomId, thisWeekNo, data);
     
     setBooking({

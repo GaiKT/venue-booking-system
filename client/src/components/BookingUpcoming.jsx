@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { format } from 'date-fns';
-import {setFormatTime} from '../utils/getBookingForWeek'
 
 export default function BookingUpcoming({bookings , roomId}) {
     
@@ -27,11 +26,11 @@ export default function BookingUpcoming({bookings , roomId}) {
                         if(strTime - endTime / (1000 * 60 * 60 * 24)  > 1){
                             newEndTime = format(bookings.endTime , 'EEEE dd MMM HH:mm')
                         }else{
-                            newEndTime = setFormatTime(bookings.endTime)
+                            newEndTime = format(bookings.endTime , 'HH:mm')
                         }
                         return (                
                         <div key={index}>
-                            <p className='opacity-50'>{setFormatTime(bookings.startTime)} - {newEndTime}</p>
+                            <p className='opacity-50'>{format(bookings.startTime , 'HH:mm')} - {newEndTime}</p>
                             <p className='text-lg'>{bookings.title}</p>
                         </div>
                         )

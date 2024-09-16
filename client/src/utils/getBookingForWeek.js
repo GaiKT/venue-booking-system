@@ -1,53 +1,62 @@
+import { getWeek, isSameDay, isSameMonth, addWeeks , format } from 'date-fns';
+
 export const getBookingsForWeek = (roomId, weekNo, bookingData) => {
   if (!roomId) {
-      return 'roomId is required.';
+    return 'roomId is required.';
   }
 
-  // Helper function to get the week number
-  const getWeekNumber = (date) => {
-      const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-      const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
-      return Math.floor((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-  };
-
   const today = new Date();
-  const todayStr = today.toDateString();
 
-  // Filter bookings by roomId
-  const bookingsForRoom = bookingData.filter((booking) => booking.roomId === roomId);
+  // Filter and sort only active bookings (startTime is in the future or endTime is ongoing)
+  const bookingsForRoom = bookingData
+    .filter((booking) => {
+      const bookingEndTime = new Date(booking.endTime);
+      
+      // Only include bookings that are either ongoing or start in the future
+      return bookingEndTime >= today;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.startTime);
+      const dateB = new Date(b.startTime);
+  
+      // Sort by proximity to today
+      return Math.abs(dateA - today) - Math.abs(dateB - today);
+    });
+  
 
   // Initialize the result object
   const resultBooking = {
-      today: [],
-      thisWeek: [],
-      nextWeek: [],
-      thisMonth: []
+    today: [],
+    thisWeek: [],
+    nextWeek: [],
+    thisMonth: []
   };
 
-  // Filter bookings for today
+  // Filter bookings for today using date-fns `isSameDay`
   const toDayBooking = bookingsForRoom.filter((booking) => {
-      const bookingStartTime = new Date(booking.startTime).toDateString();
-      return bookingStartTime === todayStr;
+    const bookingStartTime = new Date(booking.startTime);
+    return isSameDay(bookingStartTime, today);
   });
 
-  // Filter bookings for this week
+  // Filter bookings for this week using date-fns `getWeek`
   const bookingsForThisWeek = bookingsForRoom.filter((booking) => {
-      const bookingStartTime = new Date(booking.startTime);
-      const bookingWeekNo = getWeekNumber(bookingStartTime);
-      return bookingWeekNo === weekNo;
+    const bookingStartTime = new Date(booking.startTime);
+    return getWeek(bookingStartTime) === weekNo;
   });
 
-  // Filter bookings for next week
+  // Filter bookings for next week using `getWeek` and adding a week to the current date
+  const nextWeek = addWeeks(today, 1);
+  const nextWeekNo = getWeek(nextWeek);
+  
   const bookingsForNextWeek = bookingsForRoom.filter((booking) => {
-      const bookingStartTime = new Date(booking.startTime);
-      const bookingWeekNo = getWeekNumber(bookingStartTime);
-      return bookingWeekNo === weekNo + 1;
+    const bookingStartTime = new Date(booking.startTime);
+    return getWeek(bookingStartTime) === nextWeekNo;
   });
 
-  // Filter bookings for this month
+  // Filter bookings for this month using date-fns `isSameMonth`
   const bookingsForThisMonth = bookingsForRoom.filter((booking) => {
-      const bookingStartTime = new Date(booking.startTime);
-      return bookingStartTime.getMonth() === today.getMonth() && bookingStartTime.getFullYear() === today.getFullYear();
+    const bookingStartTime = new Date(booking.startTime);
+    return isSameMonth(bookingStartTime, today);
   });
 
   // Assign bookings to the corresponding keys
@@ -59,19 +68,25 @@ export const getBookingsForWeek = (roomId, weekNo, bookingData) => {
   return resultBooking;
 };
 
+export const filterBookingWithDay = (bookingArr) => {
+  // Helper function to format date as 'EEE dd MMM'
+  const formatDate = (date) => format(new Date(date), 'EEE, dd MMM');
+  
+  // Create a mapping of date strings to booking arrays
+  const bookingMap = bookingArr.reduce((acc, booking) => {
+      const dateStr = formatDate(booking.startTime);
+      if (!acc[dateStr]) {
+          acc[dateStr] = [];
+      }
+      acc[dateStr].push(booking);
+      return acc;
+  }, {});
 
-export const getWeekNumber = (date) => {
-  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-  const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
-  return Math.floor((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  // Convert the mapping to the desired format
+  const resultBooking = Object.entries(bookingMap).map(([date, bookings]) => ({
+      date,
+      booking: bookings
+  }));
+
+  return resultBooking;
 };
-
-
-export const setFormatTime = (dateTime) => {
-    const date = new Date(dateTime);
-    const hours = date.getHours().toString().padStart(2, '0'); 
-    const minutes = date.getMinutes().toString().padStart(2, '0'); 
-
-    const timeString = `${hours}:${minutes}`; 
-    return timeString
-}

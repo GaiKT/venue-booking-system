@@ -18,11 +18,11 @@ const Layout = ({ children }) => {
   return (
     <section className='flex h-full w-full bg-white'>
         <div className='w-2/6 bg-[#46529D] h-full relative'>
-            <BookingUpcoming bookings={booking.toDay} roomId={roomId}/>
+            <BookingUpcoming bookings={booking.today} roomId={roomId}/>
         </div>
         <div className='w-4/6 h-full relative'>
             <NavBar/>
-            <div className='h-full w-full relative shadow-lg'>
+            <div className='h-full w-full relative shadow-lg overflow-y-auto'>
                 {children}
             </div>
         </div>

@@ -10,8 +10,8 @@ export default function BookingPage() {
         <ul>
             <h1>Rooms</h1>
             {
-              rooms.map((room)=>{
-                return  <li><Link to={`/bookings/this-week?roomId=${room}`}>{room}</Link></li>
+              rooms.map((room , index)=>{
+                return  <li key={index}><Link to={`/bookings/this-week?roomId=${room}`}>{room}</Link></li>
               })
             }
         </ul>
