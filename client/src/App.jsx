@@ -10,8 +10,12 @@ import { BookingProvider } from './context/BookingContext';
 function App() {
   const router = createBrowserRouter([
     {
+      path: "/" ,
+      element: <Layout><BookingPage /></Layout>,
+    },
+    {
       path: "/bookings",
-      element: <BookingPage />,
+      element: <Layout><BookingPage /></Layout>,
     },
     {
       path: "/bookings/this-week",

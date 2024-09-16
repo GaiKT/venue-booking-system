@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 export default function BookingUpcoming({bookings , roomId}) {
     
@@ -12,12 +13,13 @@ export default function BookingUpcoming({bookings , roomId}) {
         </div>
         <div className='mt-40 flex flex-col gap-6 text-white items-end text-lg'>
             <div className='w-5/6 flex flex-col gap-10'>
-                <p>Upcoming</p>
+                <p>{roomId === 'Homepage' ? 'Welcome Venue Booker' : 'Upcoming'}</p>
                 <p className='text-[64px] opacity-50'>{format(today , 'EEEE')}</p>
                 <p className='text-[64px]'>{format(today , 'dd MMM')}</p>
             </div>
             <div className='w-5/6 mt-10 flex flex-col gap-5 text-base'>
                 {
+                
                     bookings ?
                     bookings.map((bookings , index)=>{
                         const strTime = new Date(bookings.startTime)
@@ -35,10 +37,20 @@ export default function BookingUpcoming({bookings , roomId}) {
                         </div>
                         )
                     })
-                    : <p className='mt-10'> Today this room is not have booking. </p>
+                    : <p className='mt-10'> {roomId === 'Homepage' ? 'Please select room.' : 'Today this room is not have booking.'} </p>
                 }
             </div>
         </div>
+        {
+            roomId !== 'Homepage' &&
+            <div className='flex justify-center font-bold text-lg text-white mt-10'>
+                <Link to={'/bookings'}>
+                    <button>
+                        Back
+                    </button>
+                    </Link>
+            </div>
+        }
     </>
   )
 }

@@ -9,7 +9,7 @@ export default function BookingList({ bookingWithDay }) {
       <div className='w-10 border-r h-full'></div>
       <div className='absolute top-32 left-0 w-full flex flex-col gap-5'>
         {bookingWithDay.length > 0 ? (
-          bookingWithDay.map((keyDate, index) => {
+          bookingWithDay?.map((keyDate, index) => {
             const { date, booking } = keyDate;
             
             return (

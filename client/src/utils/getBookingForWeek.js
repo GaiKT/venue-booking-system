@@ -5,15 +5,18 @@ export const getBookingsForWeek = (roomId, weekNo, bookingData) => {
     return 'roomId is required.';
   }
 
+  //Filter Only room as RoomId
+  const filterRoomId = bookingData.filter((booking)=>booking.roomId === roomId); 
+
   const today = new Date();
 
   // Filter and sort only active bookings (startTime is in the future or endTime is ongoing)
-  const bookingsForRoom = bookingData
+  const bookingsForRoom = filterRoomId
     .filter((booking) => {
       const bookingEndTime = new Date(booking.endTime);
       
       // Only include bookings that are either ongoing or start in the future
-      return bookingEndTime >= today;
+      return bookingEndTime >= today
     })
     .sort((a, b) => {
       const dateA = new Date(a.startTime);
@@ -22,6 +25,7 @@ export const getBookingsForWeek = (roomId, weekNo, bookingData) => {
       // Sort by proximity to today
       return Math.abs(dateA - today) - Math.abs(dateB - today);
     });
+
   
 
   // Initialize the result object
@@ -69,6 +73,11 @@ export const getBookingsForWeek = (roomId, weekNo, bookingData) => {
 };
 
 export const filterBookingWithDay = (bookingArr) => {
+
+  if(!bookingArr){
+    return "don't have booking"
+  }
+
   // Helper function to format date as 'EEE dd MMM'
   const formatDate = (date) => format(new Date(date), 'EEE, dd MMM');
   

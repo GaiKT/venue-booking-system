@@ -9,8 +9,10 @@ export default function WholeMonthPage() {
   const [bookingWithDay , setBookingWithDay] = useState([])
 
   useEffect(()=>{
-    const result = filterBookingWithDay(booking.thisWeek)
-    setBookingWithDay(result)
+    if(booking){
+      const result = filterBookingWithDay(booking.thisWeek)
+      setBookingWithDay(result)
+    }
   },[booking])
 
   return <BookingList bookingWithDay={bookingWithDay} />
