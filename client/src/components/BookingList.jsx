@@ -26,7 +26,7 @@ export default function BookingList({ bookingWithDay }) {
                       const endTime = new Date(bookingItem.endTime);
                       
                       const isMultiDay = differenceInDays(endTime, startTime) > 0;
-                      const endDateFormat = isMultiDay ? format(endTime, 'EEE, dd MMM') : format(endTime, 'HH:mm');
+                      const endDateFormat = isMultiDay ? format(endTime, 'EEE, dd MMM HH:mm') : format(endTime, 'HH:mm');
 
                       const hours = startTime.getHours();
                       let bgDot = '';

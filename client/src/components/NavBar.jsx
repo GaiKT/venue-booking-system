@@ -13,7 +13,7 @@ export default function NavBar() {
 
     return (
         <nav className='w-full top-0 h-20 bg-[#EFEEEC] absolute z-50'>
-            <ul className='flex gap-10 text-2xl w-fit absolute left-10 bottom-0 h-11'>
+            <ul className='flex gap-10 lg:text-2xl md:text-sm text-base w-fit absolute left-10 bottom-0 h-11'>
                 {   
                     tab.map((tab, index) => {
 

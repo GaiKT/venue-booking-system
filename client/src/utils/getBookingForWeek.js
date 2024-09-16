@@ -14,7 +14,6 @@ export const getBookingsForWeek = (roomId, weekNo, bookingData) => {
   const bookingsForRoom = filterRoomId
     .filter((booking) => {
       const bookingEndTime = new Date(booking.endTime);
-      
       // Only include bookings that are either ongoing or start in the future
       return bookingEndTime >= today
     })

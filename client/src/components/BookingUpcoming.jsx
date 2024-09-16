@@ -8,16 +8,16 @@ export default function BookingUpcoming({bookings , roomId}) {
 
   return (
     <>
-        <div className='absolute top-0 right-0 h-20 w-5/6 bg-[#2EBAEE] shadow-lg'>
-            <h1 className='absolute left-10 text-[54px] font-bold text-white'>{roomId}</h1>
+        <div className='absolute top-0 right-0 h-20 w-5/6 bg-[#2EBAEE] shadow-md'>
+            <h1 className='absolute left-6 text-[48px] font-bold text-white'>{roomId}</h1>
         </div>
-        <div className='mt-40 flex flex-col gap-6 text-white items-end text-lg'>
-            <div className='w-5/6 flex flex-col gap-10'>
+        <div className='md:mt-40 mt-24 flex flex-col gap-6 text-white md:items-end items-center text-md'>
+            <div className='w-5/6 flex md:flex-col md:gap-10 gap-5'>
                 <p>{roomId === 'Homepage' ? 'Welcome Venue Booker' : 'Upcoming'}</p>
-                <p className='text-[64px] opacity-50'>{format(today , 'EEEE')}</p>
-                <p className='text-[64px]'>{format(today , 'dd MMM')}</p>
+                <p className='md:text-[64px] text-xl opacity-50'>{format(today , 'EEEE')}</p>
+                <p className='md:text-[64px] text-xl'>{format(today , 'dd MMM')}</p>
             </div>
-            <div className='w-5/6 mt-10 flex flex-col gap-5 text-base'>
+            <div className='w-5/6 md:mt-10 flex flex-col gap-5 text-base max-md:pb-4'>
                 {
                 
                     bookings ?
@@ -33,17 +33,17 @@ export default function BookingUpcoming({bookings , roomId}) {
                         return (                
                         <div key={index}>
                             <p className='opacity-50'>{format(bookings.startTime , 'HH:mm')} - {newEndTime}</p>
-                            <p className='text-lg'>{bookings.title}</p>
+                            <p className='text-md'>{bookings.title}</p>
                         </div>
                         )
                     })
-                    : <p className='mt-10'> {roomId === 'Homepage' ? 'Please select room.' : 'Today this room is not have booking.'} </p>
+                    : <p className='md:mt-10'> {roomId === 'Homepage' ? 'Please select room.' : 'Today this room is not have booking.'} </p>
                 }
             </div>
         </div>
         {
             roomId !== 'Homepage' &&
-            <div className='flex justify-center font-bold text-lg text-white mt-10'>
+            <div className='flex justify-center font-bold text-md text-white mt-10'>
                 <Link to={'/bookings'}>
                     <button>
                         Back

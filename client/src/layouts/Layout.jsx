@@ -15,14 +15,12 @@ const Layout = ({ children }) => {
     getBooking(roomId)
   },[roomId])
 
-  console.log(booking)
-
   return (
-    <section className='flex h-full w-full bg-white'>
-        <div className='w-2/6 bg-[#46529D] h-full relative'>
+    <section className='flex h-full w-full bg-white max-md:flex-col'>
+        <div className='max-lg:w-full w-2/6 bg-[#46529D] h-2/6 md:h-full relative'>
             <BookingUpcoming bookings={booking.today} roomId={roomId ? roomId : 'Homepage'}/>
         </div>
-        <div className='w-4/6 h-full relative'>
+        <div className='w-full h-full relative'>
             {
               roomId && <NavBar/>
             }

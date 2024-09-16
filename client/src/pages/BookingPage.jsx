@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from "react-router-dom";
 
 const rooms = ['A101' , 'A102' , 'Auditorium']
 
